@@ -1,0 +1,143 @@
+.footer {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #ffffff;
+  padding: 2rem 0 0;
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+  margin-top: auto; /* This pushes footer to bottom */
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Rest of your existing CSS remains the same */
+.footer-left {
+  flex: 1;
+  min-width: 250px;
+  margin-bottom: 1.5rem;
+}
+
+.footer-brand h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.footer-brand h2 a {
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-brand h2 a:hover {
+  color: #4cc9f0;
+}
+
+.footer-tagline {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin: 0.5rem 0 1.5rem;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.footer-links li a {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.footer-links li a:hover {
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+.footer-right {
+  flex: 1;
+  min-width: 250px;
+  text-align: right;
+}
+
+.footer-right h3 {
+  /* margin: 0 0 1rem 0; */
+  margin-bottom: 1rem;
+  margin-right: 13px;
+  font-size: 1.1rem;
+  color: #4cc9f0;
+}
+
+.social-links {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  
+}
+
+.social-icon {
+  color: white;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+}
+
+.discord { background-color: #5865F2; }
+.twitter { background-color: #1DA1F2; }
+.telegram { background-color: #0088cc; }
+
+.footer-bottom {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 1rem 0;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+  }
+  
+  .footer-left, .footer-right {
+    text-align: center;
+    
+  }
+  
+  .footer-links ul {
+    justify-content: center;
+  }
+  
+  .social-links {
+    justify-content: center;
+  }
+}
