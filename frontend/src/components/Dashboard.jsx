@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import FAQ from './FAQ';
 
+// Declare your environment variable here, after the imports
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -24,17 +27,17 @@ const Dashboard = () => {
   const circleRef = useRef(null);
   const radius = 90;
   const circumference = radius * 2 * Math.PI;
-
+  
   const fetchUser = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return navigate('/');
 
-      const { data: userData } = await axios.get('http://localhost:5000/api/dashboard/user', {
+      const { data: userData } = await axios.get(`${apiUrl}/api/dashboard/user`, {
         headers: { 'x-auth-token': token }
       });
 
-      const { data: referralData } = await axios.get('http://localhost:5000/api/dashboard/referral-stats', {
+      const { data: referralData } = await axios.get(`${apiUrl}/api/dashboard/referral-stats`, {
         headers: { 'x-auth-token': token }
       });
 
@@ -75,7 +78,7 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem('token');
       const { data } = await axios.post(
-        'http://localhost:5000/api/dashboard/update-mining-progress',
+        `${apiUrl}/api/dashboard/update-mining-progress`,
         {},
         { headers: { 'x-auth-token': token } }
       );
@@ -145,7 +148,7 @@ const Dashboard = () => {
       setLoading(true);
       const token = localStorage.getItem('token');
       const { data } = await axios.post(
-        'http://localhost:5000/api/dashboard/start-mining',
+        `${apiUrl}/api/dashboard/start-mining`,
         {},
         { headers: { 'x-auth-token': token } }
       );

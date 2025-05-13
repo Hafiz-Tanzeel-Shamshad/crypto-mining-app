@@ -3,7 +3,8 @@ import MetaMaskAuth from './components/MetaMaskAuth.jsx';
 import Dashboard from './components/Dashboard.jsx';
 
 function App() {
-  return (
+  
+  return (   
     <Router>
       <Routes>
         <Route path="/" element={<MetaMaskAuth />} />

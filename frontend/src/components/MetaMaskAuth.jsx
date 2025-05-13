@@ -4,6 +4,10 @@ import Web3 from "web3";
 import axios from "axios";
 import "./MetaMaskAuth.css"; 
 
+// Declare your environment variable here, after the imports
+const apiUrl = import.meta.env.VITE_API_URL;
+
+
 const MetaMaskAuth = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +16,7 @@ const MetaMaskAuth = () => {
   const [isValidatingReferral, setIsValidatingReferral] = useState(false);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-
+  
   // Check for referral code in URL
   useEffect(() => {
     const refCode = searchParams.get("ref");
@@ -39,7 +43,7 @@ const MetaMaskAuth = () => {
     setIsValidatingReferral(true);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/referral/validate/${code}`
+        `${apiUrl}/api/referral/validate/${code}`
       );
       if (response.data.valid) {
         setReferrer(response.data.referrer);
@@ -76,7 +80,7 @@ const MetaMaskAuth = () => {
         ""
       );
 
-      const response = await axios.post("http://localhost:5000/api/auth", {
+      const response = await axios.post(`${apiUrl}/api/auth`, {
         walletAddress,
         signature,
         referralCode: referralCode || undefined,
