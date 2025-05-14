@@ -11,15 +11,22 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log("✅ MongoDB connected on Railway");
-}).catch(err => {
-  console.error("❌ MongoDB error:", err);
-});
 
+let MONGO_URL = process.env.MONGODB_URI;
+async function main(){
+    mongoose.connect(MONGO_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        ssl: true,
+        tlsInsecure: false,  // Ensure secure TLS connection
+        serverSelectionTimeoutMS: 5000
+      });
+}
+main().then((res)=>{
+    console.log("Connecting to Data Base");
+}).catch((err)=>{
+    console.log(err);
+});
 // JWT Generator
 const generateToken = (walletAddress) => {
   return jwt.sign({ walletAddress }, process.env.JWT_SECRET, { expiresIn: "1d" });
@@ -305,6 +312,9 @@ app.get("/api/dashboard/referral-stats", authMiddleware, async (req, res) => {
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: "Something went wrong!" });
+});
+app.get("/", (req, res) => {
+  res.send("Welcome to the backend server!");
 });
 
 // Start Server
