@@ -131,8 +131,8 @@ app.post("/api/dashboard/update-mining-progress", authMiddleware, async (req, re
     let randomPoints = 0;
 
     if (fullMinutesPassed >= 1) {
-      // Award points: 50–100 per minute
-      const pointsPerMinute = () => Math.floor(Math.random() * 51) + 50;
+      // Award points: 1–3 per minute
+      const pointsPerMinute = () => Math.floor(Math.random() * 3) + 1;
       for (let i = 0; i < fullMinutesPassed; i++) {
         randomPoints += pointsPerMinute();
       }
