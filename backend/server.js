@@ -10,23 +10,36 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+// ✅ Serve static files from 'public' folder with cache control
+const path = require('path');
+
+app.use('/videos', express.static(path.join(__dirname, '../frontend/public/videos'), {
+  maxAge: '7d', // cache for 7 day
+  setHeaders: function (res, path) {
+    if (path.endsWith('.mp4')) {
+      res.setHeader('Cache-Control', 'public, max-age=86400, immutable');
+    }
+  }
+}));
+
 // Connect to MongoDB
 
 let MONGO_URL = process.env.MONGODB_URI;
-async function main(){
-    mongoose.connect(MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
+
+async function main() {
+    await mongoose.connect(MONGO_URL, {
         ssl: true,
-        tlsInsecure: false,  // Ensure secure TLS connection
+        tlsInsecure: false,  // optional based on your setup
         serverSelectionTimeoutMS: 5000
-      });
+    });
+    console.log("✅ Connected to MongoDB");
 }
-main().then((res)=>{
-    console.log("Connecting to Data Base");
-}).catch((err)=>{
-    console.log(err);
+
+main().catch((err) => {
+    console.error("❌ MongoDB connection error:", err);
 });
+
 // JWT Generator
 const generateToken = (walletAddress) => {
   return jwt.sign({ walletAddress }, process.env.JWT_SECRET, { expiresIn: "1d" });
