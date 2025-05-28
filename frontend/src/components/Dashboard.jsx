@@ -27,7 +27,7 @@ const Dashboard = () => {
   const circleRef = useRef(null);
   const radius = 90;
   const circumference = radius * 2 * Math.PI;
-  
+
   const fetchUser = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
@@ -104,7 +104,11 @@ const Dashboard = () => {
       console.error('Mining progress update failed:', err);
     }
   };
-
+  // call it once when component mounts
+  useEffect(() => {
+    updateMiningProgress();
+  }, []);
+  
   const startTimer = (startTime) => {
     clearInterval(timerRef.current);
 
@@ -276,11 +280,11 @@ const Dashboard = () => {
               </video>
               <div className="video-overlay"></div>
             </div>
-            
+
             {/* Card Content */}
             <div className="stats-content">
               <h2>ENERGY STATISTICS</h2>
-              
+
               <div className="stats-grid">
                 <div className="stat-item">
                   <p className="stat-label">TOTAL ENERGY</p>
@@ -312,7 +316,7 @@ const Dashboard = () => {
               </video>
               <div className="video-overlay"></div>
             </div>
-            
+
             {/* Card Content */}
             <div className="referral-content">
               <h2>INCREASE ENERGY</h2>
