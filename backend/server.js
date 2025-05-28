@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const { Web3 } = require("web3");
+const { Web3 }  = require("web3");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User");
 
@@ -23,7 +23,7 @@ app.use('/videos', express.static(path.join(__dirname, '../frontend/public/video
   }
 }));
 
-// Connect to MongoDB
+// Connect to Atlas MongoDB
 
 let MONGO_URL = process.env.MONGODB_URI;
 
@@ -106,7 +106,7 @@ app.post("/api/auth", async (req, res) => {
 });
 // ======================= DASHBOARD =======================
 
-// Update mining progress endpoint - adds random points (50-100) every minute
+// Update mining progress endpoint - adds random points (1-4) every minute
 app.post("/api/dashboard/update-mining-progress", authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({
