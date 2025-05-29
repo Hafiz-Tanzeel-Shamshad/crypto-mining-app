@@ -107,7 +107,7 @@ const Dashboard = () => {
   // call it once when component mounts
   useEffect(() => {
     updateMiningProgress();
-  }, []);
+  }, [updateMiningProgress]);
   
   const startTimer = (startTime) => {
     clearInterval(timerRef.current);
