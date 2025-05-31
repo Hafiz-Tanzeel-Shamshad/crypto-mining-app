@@ -8,6 +8,8 @@ import FAQ from './FAQ';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Dashboard = () => {
+  const [localPoints, setLocalPoints] = useState(0); // Track points locally
+const [lastSyncMinute, setLastSyncMinute] = useState(-1); // Track last sync time
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -109,44 +111,88 @@ const Dashboard = () => {
   //   updateMiningProgress();
   // }, []);
 
-  const startTimer = (startTime) => {
-    clearInterval(timerRef.current);
+  // const startTimer = (startTime) => {
+  //   clearInterval(timerRef.current);
 
-    timerRef.current = setInterval(() => {
-      const now = new Date();
-      const elapsedMs = now - startTime;
-      const remainingMs = 24 * 60 * 60 * 1000 - elapsedMs;
+  //   timerRef.current = setInterval(() => {
+  //     const now = new Date();
+  //     const elapsedMs = now - startTime;
+  //     const remainingMs = 24 * 60 * 60 * 1000 - elapsedMs;
 
-      if (remainingMs <= 0) {
-        clearInterval(timerRef.current);
-        setMiningStatus('Completed - Ready to Start Again');
-        setTimeRemaining('00:00:00');
-        if (circleRef.current) {
-          circleRef.current.style.strokeDashoffset = 0;
-        }
-        return;
-      }
+  //     if (remainingMs <= 0) {
+  //       clearInterval(timerRef.current);
+  //       setMiningStatus('Completed - Ready to Start Again');
+  //       setTimeRemaining('00:00:00');
+  //       if (circleRef.current) {
+  //         circleRef.current.style.strokeDashoffset = 0;
+  //       }
+  //       return;
+  //     }
 
-      // Update progress ring
-      const progress = remainingMs / (24 * 60 * 60 * 1000);
-      const offset = circumference - progress * circumference;
+  //     // Update progress ring
+  //     const progress = remainingMs / (24 * 60 * 60 * 1000);
+  //     const offset = circumference - progress * circumference;
+  //     if (circleRef.current) {
+  //       circleRef.current.style.strokeDashoffset = offset;
+  //     }
+
+  //     const h = String(Math.floor(remainingMs / 3600000)).padStart(2, '0');
+  //     const m = String(Math.floor((remainingMs % 3600000) / 60000)).padStart(2, '0');
+  //     const s = String(Math.floor((remainingMs % 60000) / 1000)).padStart(2, '0');
+  //     setTimeRemaining(`${h}:${m}:${s}`);
+
+  //     // Sync update at exact minute mark (seconds === 59)
+  //     if (s === '59') {
+  //       updateMiningProgress();
+  //     }
+
+  //   }, 1000);
+  // };
+const startTimer = (startTime) => {
+  clearInterval(timerRef.current);
+
+  timerRef.current = setInterval(() => {
+    const now = new Date();
+    const elapsedMs = now - startTime;
+    const remainingMs = 24 * 60 * 60 * 1000 - elapsedMs;
+
+    if (remainingMs <= 0) {
+      clearInterval(timerRef.current);
+      setMiningStatus('Completed - Ready to Start Again');
+      setTimeRemaining('00:00:00');
       if (circleRef.current) {
-        circleRef.current.style.strokeDashoffset = offset;
+        circleRef.current.style.strokeDashoffset = 0;
       }
+      return;
+    }
 
-      const h = String(Math.floor(remainingMs / 3600000)).padStart(2, '0');
-      const m = String(Math.floor((remainingMs % 3600000) / 60000)).padStart(2, '0');
-      const s = String(Math.floor((remainingMs % 60000) / 1000)).padStart(2, '0');
-      setTimeRemaining(`${h}:${m}:${s}`);
+    // Update progress ring
+    const progress = remainingMs / (24 * 60 * 60 * 1000);
+    const offset = circumference - progress * circumference;
+    if (circleRef.current) {
+      circleRef.current.style.strokeDashoffset = offset;
+    }
 
-      // Sync update at exact minute mark (seconds === 59)
-      if (s === '59') {
-        updateMiningProgress();
-      }
+    // Update time display
+    const h = String(Math.floor(remainingMs / 3600000)).padStart(2, '0');
+    const m = String(Math.floor((remainingMs % 3600000) / 60000)).padStart(2, '0');
+    const s = String(Math.floor((remainingMs % 60000) / 1000)).padStart(2, '0');
+    setTimeRemaining(`${h}:${m}:${s}`);
 
-    }, 1000);
-  };
+    // Calculate current minute
+    const currentMinute = Math.floor(elapsedMs / 60000);
 
+    // Update local points (smooth UI updates)
+    setLocalPoints(currentMinute * 1); // Change '1' to your points-per-minute rate
+
+    // Sync with server ONLY at exact minute changes (when seconds = 0)
+    if (s === '00' && currentMinute !== lastSyncMinute) {
+      setLastSyncMinute(currentMinute);
+      updateMiningProgress(); // Only triggers once per minute
+    }
+
+  }, 1000);
+};
   const handleStartMining = async () => {
     try {
       setLoading(true);
@@ -295,8 +341,10 @@ const Dashboard = () => {
                   <p className="stat-value">{referralStats.referralPoints}</p>
                 </div>
                 <div className="stat-item">
-                  <p className="stat-label">CURRENT ENERGY</p>
-                  <p className="stat-value">{pointsEarned}</p>
+                  {/* <p className="stat-label">CURRENT ENERGY</p>
+                  <p className="stat-value">{pointsEarned}</p> */}
+                    <p className="stat-label">CURRENT ENERGY</p>
+                    <p className="stat-value">{Math.max(pointsEarned, localPoints)}</p>
                 </div>
                 <div className="stat-item">
                   <p className="stat-label">TOTAL INVITE</p>
