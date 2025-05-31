@@ -5,9 +5,10 @@ const cors = require("cors");
 const { Web3 }  = require("web3");
 const jwt = require("jsonwebtoken");
 const User = require("./models/User");
-
+const compression = require("compression"); // ✅ Add this
 const app = express();
 app.use(cors());
+app.use(compression()); // ✅ Use compression middleware
 app.use(express.json());
 
 
