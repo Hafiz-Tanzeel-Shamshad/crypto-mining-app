@@ -74,7 +74,7 @@ const Dashboard = () => {
     }
   }, [navigate]);
 
-  const updateMiningProgress = async () => {
+  const updateMiningProgress =  async() => {
     try {
       const token = localStorage.getItem('token');
       const { data } = await axios.post(
@@ -103,12 +103,12 @@ const Dashboard = () => {
     } catch (err) {
       console.error('Mining progress update failed:', err);
     }
-  };
+  }
   // call it once when component mounts
-  useEffect(() => {
-    updateMiningProgress();
-  }, []);
-  
+  // useEffect(() => {
+  //   updateMiningProgress();
+  // }, []);
+
   const startTimer = (startTime) => {
     clearInterval(timerRef.current);
 
