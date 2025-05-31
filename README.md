@@ -1,6 +1,6 @@
-# CryptoMining App
+# KINZOO ENERGY 
 
-**A comprehensive MERN stack application** that enables crypto mining operations with OKX wallet authentication. Monitor your mining performance, track earnings, and manage your crypto assets all in one place. <br/>
+**A comprehensive Crypto Mining App** that enables crypto mining operations with OKX wallet authentication. Monitor your mining performance, track earnings, and manage your crypto assets all in one place. <br/>
 ![MERN Stack](https://img.shields.io/badge/Stack-MERN-61DAFB?logo=react&logoColor=white)
 ![OKX Wallet](https://img.shields.io/badge/Auth-OKX_Wallet-052BFF?logo=okx)
 ![License](https://img.shields.io/badge/License-MIT-green)
