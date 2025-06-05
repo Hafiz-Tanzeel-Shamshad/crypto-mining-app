@@ -3,14 +3,15 @@ import MetaMaskAuth from './components/MetaMaskAuth.jsx';
 import Dashboard from './components/Dashboard.jsx';
 
 function App() {
-  
-  return (   
-    <Router>
-      <Routes>
-        <Route path="/" element={<MetaMaskAuth />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </Router>
+  return (
+    <div>  
+      <Router>
+        <Routes>
+          <Route path="/" element={<MetaMaskAuth />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

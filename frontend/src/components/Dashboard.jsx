@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import FAQ from './FAQ';
+import NFTNotificationBar from './NotificationBar';
 
 // Declare your environment variable here, after the imports
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -254,7 +255,7 @@ const startTimer = (startTime) => {
           </button>
         </div>
       </header>
-
+        <NFTNotificationBar /> 
       <main className="dashboard-content">
         <div className="dashboard-grid">
           {/* Mining Card */}
